@@ -1,12 +1,15 @@
 package com.hcj.study.nettydemo.bio;
 
-import cn.hutool.core.date.DateUtil;
-import cn.hutool.core.util.StrUtil;
+import cn.hutool.core.thread.ThreadFactoryBuilder;
 import lombok.extern.slf4j.Slf4j;
 
-import java.io.*;
+import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.util.concurrent.RejectedExecutionException;
+import java.util.concurrent.SynchronousQueue;
+import java.util.concurrent.ThreadPoolExecutor;
+import java.util.concurrent.TimeUnit;
 
 /**
  * socket服务端示例
@@ -17,37 +20,31 @@ import java.net.Socket;
 @Slf4j
 public class SocketServerDemo {
     private static ServerSocket serverSocket;
-    private static String VALID_ORDER = "CURRENT_TIME";
-    private static String INVALID_ORDER_TIPS = "invalid order";
+    private static ThreadPoolExecutor pool;
+
     static{
         try {
             int port = 8010;
             serverSocket = new ServerSocket(port);
             log.info("socket server启动成功,端口:{}",port);
+            pool = new ThreadPoolExecutor(4,4,30, TimeUnit.SECONDS,new SynchronousQueue<>(),
+                    new ThreadFactoryBuilder().setNamePrefix("server-thread").build(),new ThreadPoolExecutor.AbortPolicy());
         } catch (IOException e) {
             log.error("socket server启动异常:{}",e.getMessage(),e);
         }
     }
 
-    public static void main(String[] args) {
-        while(true){
-            //读取服务器端数据
-            //向服务器端发送数据
-            try (Socket socket = serverSocket.accept();
-                 DataInputStream in =new DataInputStream(socket.getInputStream());
-                 DataOutputStream out = new DataOutputStream(socket.getOutputStream())){
-                log.info("收到来自客户端[{}]的连接",socket.getRemoteSocketAddress());
-                //读取客户端输入的指令
-                String order = in.readUTF();
-                String response;
-                if(StrUtil.isBlank(order)){
-                    continue;
-                }
-                log.info("input order is {}",order);
-                response = VALID_ORDER.equalsIgnoreCase(order)? DateUtil.now():INVALID_ORDER_TIPS;
-                out.writeUTF(response);
-            } catch (IOException e) {
-                log.error("socket io error:{}",e.getMessage(),e);
+    public static void main(String[] args) throws IOException {
+        while (true){
+            Socket socket = serverSocket.accept();
+            log.info("收到来自客户端[{}]的连接",socket.getRemoteSocketAddress());
+            try {
+                pool.execute(new SocketServerThread(socket));
+            } catch (RejectedExecutionException e) {
+                //TODO 只是断开了服务端的socket,不会响应客户端,而客户端连接是成功的,当客户端通信时会异常终止
+                //TODO PS:超出连接上限时,如何直接拒绝客户端连接(更优雅)
+                log.warn("超出连接上限:{}",socket.getRemoteSocketAddress());
+                socket.close();
             }
         }
     }
