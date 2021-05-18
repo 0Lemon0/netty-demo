@@ -13,7 +13,7 @@ import java.util.concurrent.TimeUnit;
 
 /**
  * socket服务端示例
- *
+ * 一个连接=一个线程
  * @author 冰镇柠檬汁
  * @date 2021年04月22日 15:46
  */

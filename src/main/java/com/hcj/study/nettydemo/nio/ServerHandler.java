@@ -65,10 +65,11 @@ public class ServerHandler implements Runnable {
             ByteBuffer readBuffer = ByteBuffer.allocate(1024);
             //从channel读取数据到缓冲区,由于创建channel时设置为异步非阻塞,所以read操作为非阻塞
             int readByte = socketChannel.read(readBuffer);
+            //通过读到的字节数判断是否有数据传输
             if (readByte > 0) {
                 //从起始位置开始读,调整读/写指针指到缓冲区头部
                 readBuffer.flip();
-                //创建byte数组用于存放读取的数据,长度为byteBuffer长度
+                //创建byte数组用于存放读取的数据,长度为readBuffer长度
                 byte[] bytes = new byte[readBuffer.remaining()];
                 //读取数据到byte数组
                 readBuffer.get(bytes);

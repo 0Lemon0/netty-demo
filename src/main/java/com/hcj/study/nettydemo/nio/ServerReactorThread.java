@@ -1,22 +1,25 @@
 package com.hcj.study.nettydemo.nio;
 
 import cn.hutool.core.thread.ThreadFactoryBuilder;
-import cn.hutool.socket.SocketUtil;
-import cn.hutool.socket.nio.NioUtil;
 import lombok.extern.slf4j.Slf4j;
 
 import java.io.IOException;
 import java.net.InetAddress;
 import java.net.InetSocketAddress;
-import java.net.Socket;
-import java.nio.channels.*;
+import java.nio.channels.SelectionKey;
+import java.nio.channels.Selector;
+import java.nio.channels.ServerSocketChannel;
+import java.nio.channels.SocketChannel;
 import java.util.Iterator;
 import java.util.Set;
-import java.util.concurrent.*;
+import java.util.concurrent.ArrayBlockingQueue;
+import java.util.concurrent.RejectedExecutionException;
+import java.util.concurrent.ThreadPoolExecutor;
+import java.util.concurrent.TimeUnit;
 
 /**
  * 服务端多路复用器轮询线程
- *
+ * 一次请求=一个线程
  * @author 冰镇柠檬汁
  * @date 2021年05月14日 11:31
  */
@@ -32,7 +35,7 @@ public class ServerReactorThread implements Runnable {
         this.port = port;
         acceptChannel = ServerSocketChannel.open();
         acceptChannel.socket().bind(new InetSocketAddress(InetAddress.getByName("127.0.0.1"), this.port));
-        //设置channel为异步非阻塞模式
+        //设置channel为非阻塞模式
         acceptChannel.configureBlocking(false);
         //创建多路复用器
         selector = Selector.open();
@@ -49,8 +52,9 @@ public class ServerReactorThread implements Runnable {
         while (!stop) {
             SelectionKey key;
             try {
-                //开始Selector轮询,selector每搁1s被唤醒一次
-                selector.select();
+                //开始Selector轮询,selector每搁1s被唤醒一次,select()方法返回新增的就绪事件数
+                //当处理过的key没有被移除时会存在select()方法返回0但是selectedKeys()方法有返回值的情况
+                selector.select(1000);
                 //当有就绪状态的channel时获取该通道的selectionKey集合
                 Set<SelectionKey> selectionKeySet = selector.selectedKeys();
                 //PS:key处理完后需删除,否则selectedKeys()会一直返回处理过的key
@@ -92,8 +96,7 @@ public class ServerReactorThread implements Runnable {
             ServerSocketChannel serverSocketChannel = (ServerSocketChannel) key.channel();
             //为每一个客户端连接创建一个socketChannel并建立TCP连接
             SocketChannel socketChannel = serverSocketChannel.accept();
-            //非阻塞模式下,没有客户端连接时,accept()返回null
-            //设置channel为异步非阻塞
+            //设置channel为非阻塞
             socketChannel.configureBlocking(false);
             //为该客户端channel注册读事件
             socketChannel.register(this.selector, SelectionKey.OP_READ);
