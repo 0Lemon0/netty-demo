@@ -7,6 +7,8 @@ import java.io.*;
 import java.net.InetSocketAddress;
 import java.net.Socket;
 
+import static com.hcj.study.nettydemo.constants.Constants.ORDER_CLOSE;
+
 /**
  * socket客户端示例
  *
@@ -15,7 +17,6 @@ import java.net.Socket;
  */
 @Slf4j
 public class SocketClientDemo {
-    private static String ORDER_CLOSE = "CLOSE";
     private static Socket socket;
     private static int localPort = NetUtil.getUsableLocalPort();
 
@@ -39,6 +40,7 @@ public class SocketClientDemo {
                 log.info("请输入指令:\t");
                 String order = new BufferedReader(new InputStreamReader(System.in)).readLine();
                 //String order = "CURRENT_TIME";
+                //阻塞至所有要发送的字节写入完毕
                 out.writeUTF(order);
                 if (ORDER_CLOSE.equalsIgnoreCase(order)) {
                     break;

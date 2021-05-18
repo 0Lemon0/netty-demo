@@ -7,6 +7,8 @@ import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.net.Socket;
 
+import static com.hcj.study.nettydemo.constants.Constants.*;
+
 /**
  * socket服务端处理线程
  *
@@ -15,11 +17,7 @@ import java.net.Socket;
  */
 @Slf4j
 public class SocketServerThread implements Runnable{
-    private static String ORDER_CLOSE = "CLOSE";
-    private static String VALID_ORDER = "CURRENT_TIME";
-    private static String INVALID_ORDER_TIPS = "invalid order";
     private Socket socket;
-
 
     public SocketServerThread(Socket socket) {
         this.socket = socket;
@@ -40,6 +38,7 @@ public class SocketServerThread implements Runnable{
                 }
                 log.info("input order is {}",order);
                 response = VALID_ORDER.equalsIgnoreCase(order)? DateUtil.now():INVALID_ORDER_TIPS;
+                //阻塞至所有要发送的字节写入完毕
                 out.writeUTF(response);
             }
         } catch (Exception e) {
