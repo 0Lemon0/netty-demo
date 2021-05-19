@@ -1,4 +1,4 @@
-package com.hcj.study.nettydemo.constants;
+package com.hcj.study.nettydemo.base.constants;
 
 /**
  * 常量

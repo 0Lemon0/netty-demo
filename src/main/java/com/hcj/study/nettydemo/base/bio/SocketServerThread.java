@@ -1,4 +1,4 @@
-package com.hcj.study.nettydemo.bio;
+package com.hcj.study.nettydemo.base.bio;
 
 import cn.hutool.core.date.DateUtil;
 import lombok.extern.slf4j.Slf4j;
@@ -7,7 +7,7 @@ import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.net.Socket;
 
-import static com.hcj.study.nettydemo.constants.Constants.*;
+import static com.hcj.study.nettydemo.base.constants.Constants.*;
 
 /**
  * socket服务端处理线程

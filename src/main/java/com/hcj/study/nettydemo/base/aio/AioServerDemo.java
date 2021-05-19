@@ -1,8 +1,8 @@
-package com.hcj.study.nettydemo.aio;
+package com.hcj.study.nettydemo.base.aio;
 
 import cn.hutool.core.date.DateUtil;
 import cn.hutool.core.util.StrUtil;
-import com.hcj.study.nettydemo.constants.Constants;
+import com.hcj.study.nettydemo.base.constants.Constants;
 import lombok.extern.slf4j.Slf4j;
 
 import java.io.IOException;
@@ -12,8 +12,8 @@ import java.nio.channels.AsynchronousServerSocketChannel;
 import java.nio.channels.AsynchronousSocketChannel;
 import java.nio.channels.CompletionHandler;
 
-import static com.hcj.study.nettydemo.constants.Constants.INVALID_ORDER_TIPS;
-import static com.hcj.study.nettydemo.constants.Constants.VALID_ORDER;
+import static com.hcj.study.nettydemo.base.constants.Constants.INVALID_ORDER_TIPS;
+import static com.hcj.study.nettydemo.base.constants.Constants.VALID_ORDER;
 
 /**
  * aio服务端示例

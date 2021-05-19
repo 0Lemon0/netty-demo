@@ -1,4 +1,4 @@
-package com.hcj.study.nettydemo.bio;
+package com.hcj.study.nettydemo.base.bio;
 
 import cn.hutool.core.net.NetUtil;
 import lombok.extern.slf4j.Slf4j;
@@ -7,7 +7,7 @@ import java.io.*;
 import java.net.InetSocketAddress;
 import java.net.Socket;
 
-import static com.hcj.study.nettydemo.constants.Constants.ORDER_CLOSE;
+import static com.hcj.study.nettydemo.base.constants.Constants.ORDER_CLOSE;
 
 /**
  * socket客户端示例
