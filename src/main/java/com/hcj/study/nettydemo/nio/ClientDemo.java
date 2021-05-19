@@ -13,8 +13,6 @@ import java.util.Random;
  */
 @Slf4j
 public class ClientDemo {
-    private static final int port = 8011;
-
     public static void main(String[] args) {
         //启动客户端轮询线程
         try {

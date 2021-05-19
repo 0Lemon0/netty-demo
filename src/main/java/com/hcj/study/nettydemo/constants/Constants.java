@@ -9,7 +9,7 @@ package com.hcj.study.nettydemo.constants;
 public class Constants {
     private Constants(){}
 
-    public static String ORDER_CLOSE = "CLOSE";
-    public static String VALID_ORDER = "CURRENT_TIME";
-    public static String INVALID_ORDER_TIPS = "invalid order";
+    public static final String ORDER_CLOSE = "CLOSE";
+    public static final String VALID_ORDER = "CURRENT_TIME";
+    public static final String INVALID_ORDER_TIPS = "invalid order";
 }

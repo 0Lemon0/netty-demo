@@ -12,10 +12,10 @@ import java.io.IOException;
  */
 @Slf4j
 public class ServerDemo {
-    private static final int port = 8011;
+    private static final int SERVER_PORT = 8011;
 
     public static void main(String[] args) throws IOException {
         //启动服务端轮询线程
-        new Thread(new ServerReactorThread(port),"nio-server-reactor").start();
+        new Thread(new ServerReactorThread(SERVER_PORT),"nio-server-reactor").start();
     }
 }

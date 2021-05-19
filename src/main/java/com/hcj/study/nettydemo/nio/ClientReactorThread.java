@@ -107,7 +107,7 @@ public class ClientReactorThread implements Runnable {
         try {
             //连接成功
             if (socketChannel.finishConnect()) {
-                log.info("服务端连接成功:{}", socketChannel.getLocalAddress());
+                log.info("连接服务端成功:{}", socketChannel.getLocalAddress());
                 //监听读事件
                 socketChannel.register(selector, SelectionKey.OP_READ);
                 doRequest(socketChannel);
