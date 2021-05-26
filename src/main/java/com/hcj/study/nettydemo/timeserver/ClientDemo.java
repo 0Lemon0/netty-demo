@@ -17,7 +17,7 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 
 /**
- * 文件描述
+ * 基于netty实现的客户端实例
  *
  * @author 冰镇柠檬汁
  * @date 2021年05月20日 15:19

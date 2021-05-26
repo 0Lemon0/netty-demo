@@ -14,7 +14,7 @@ import org.springframework.stereotype.Component;
 import java.net.InetSocketAddress;
 
 /**
- * 基于netty实现的timeserver
+ * 基于netty实现的服务端实例
  *
  * @author 冰镇柠檬汁
  * @date 2021年05月19日 15:42
