@@ -18,8 +18,8 @@ import static com.hcj.study.nettydemo.base.constants.Constants.INVALID_ORDER_TIP
 import static com.hcj.study.nettydemo.base.constants.Constants.VALID_ORDER;
 
 /**
- * 服务端简易示例
- * 运行结果显示客户端请求发生了粘包,100次请求合成了n次(n<100)
+ * 服务端解决粘包/拆包问题简易示例
+ *
  * @author 冰镇柠檬汁
  * @date 2021年05月26日 15:22
  */
@@ -47,7 +47,6 @@ public class Server {
                 })
                 .option(ChannelOption.SO_BACKLOG,100);
     }
-
 
     public static void main(String[] args) {
         try {
@@ -89,5 +88,4 @@ public class Server {
             ctx.close();
         }
     }
-
 }

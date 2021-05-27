@@ -45,7 +45,6 @@ public class Server {
                 .option(ChannelOption.SO_BACKLOG,100);
     }
 
-
     public static void main(String[] args) {
         try {
             //绑定端口启动服务端并同步等待结果
@@ -87,5 +86,4 @@ public class Server {
             ctx.close();
         }
     }
-
 }

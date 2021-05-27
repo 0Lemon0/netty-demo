@@ -16,7 +16,7 @@ import lombok.extern.slf4j.Slf4j;
 import java.util.stream.IntStream;
 
 /**
- * 客户端解决粘包问题简易示例
+ * 客户端解决粘包/拆包问题简易示例
  *
  * @author 冰镇柠檬汁
  * @date 2021年05月26日 15:37
