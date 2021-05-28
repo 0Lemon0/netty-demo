@@ -6,3 +6,8 @@ LineBasedFrameDecoder(以换行符为结束标志的解码器):依次遍历ByteB
 StringDecoder:将接收到的对象转换成字符串
 PS:LineBasedFrameDecoder和StringDecoder组合就是按行切换的文本解码器,但此方案只针对发送的消息以换行符结束
 
+2.通过DelimiterBasedFrameDecoder和StringDecoder编码器来解决
+DelimiterBasedFrameDecoder:对使用分隔符结尾的消息进行自动解码
+
+3.通过FixedLengthFrameDecoder和StringDecoder编码器来解决
+FixedLengthFrameDecoder:定长解码器,按照指定长度对消息进行自动解码,若收到半包消息,会缓存半包消息并等待下个包到达后进行拼包,直到读取一个完整的包
