@@ -1,4 +1,4 @@
-package com.hcj.study.nettydemo.question.one.solution;
+package com.hcj.study.nettydemo.question.solution1;
 
 import cn.hutool.core.date.DateUtil;
 import io.netty.bootstrap.ServerBootstrap;
@@ -19,7 +19,7 @@ import static com.hcj.study.nettydemo.base.constants.Constants.VALID_ORDER;
 
 /**
  * 服务端解决粘包/拆包问题简易示例
- *
+ * 通过LineBasedFrameDecoder和StringDecoder编码器来解决
  * @author 冰镇柠檬汁
  * @date 2021年05月26日 15:22
  */

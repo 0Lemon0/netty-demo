@@ -1,4 +1,4 @@
-package com.hcj.study.nettydemo.question.one.demo;
+package com.hcj.study.nettydemo.question.demo;
 
 import cn.hutool.core.date.DateUtil;
 import io.netty.bootstrap.ServerBootstrap;

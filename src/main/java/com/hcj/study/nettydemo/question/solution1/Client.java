@@ -1,4 +1,4 @@
-package com.hcj.study.nettydemo.question.one.demo;
+package com.hcj.study.nettydemo.question.solution1;
 
 import cn.hutool.core.net.NetUtil;
 import com.hcj.study.nettydemo.base.constants.Constants;
@@ -8,14 +8,16 @@ import io.netty.channel.*;
 import io.netty.channel.nio.NioEventLoopGroup;
 import io.netty.channel.socket.SocketChannel;
 import io.netty.channel.socket.nio.NioSocketChannel;
+import io.netty.handler.codec.LineBasedFrameDecoder;
+import io.netty.handler.codec.string.StringDecoder;
 import io.netty.util.CharsetUtil;
 import lombok.extern.slf4j.Slf4j;
 
 import java.util.stream.IntStream;
 
 /**
- * 客户端简易示例
- * 运行结果显示客户端也发生了粘包,服务端响应了n次,但客户端只收到了m次响应(m<n)
+ * 客户端解决粘包/拆包问题简易示例
+ * 通过LineBasedFrameDecoder和StringDecoder编码器来解决
  * @author 冰镇柠檬汁
  * @date 2021年05月26日 15:37
  */
@@ -34,6 +36,9 @@ public class Client {
                 .handler(new ChannelInitializer<SocketChannel>() {
                     @Override
                     protected void initChannel(SocketChannel socketChannel) {
+                        //在Handler之前新增两个解码器,用于解决粘包问题
+                        socketChannel.pipeline().addLast(new LineBasedFrameDecoder(1024));
+                        socketChannel.pipeline().addLast(new StringDecoder());
                         socketChannel.pipeline().addLast(new Handler());
                     }
                 });
@@ -51,7 +56,6 @@ public class Client {
 
     static class Handler extends ChannelInboundHandlerAdapter{
         private int responseCount = 0;
-        //命令跟换行符
         private byte[] order = (Constants.VALID_ORDER + System.getProperty("line.separator")).getBytes(CharsetUtil.UTF_8);
         @Override
         public void channelActive(ChannelHandlerContext ctx) {
@@ -73,8 +77,8 @@ public class Client {
 
         @Override
         public void channelRead(ChannelHandlerContext ctx, Object msg) {
-            ByteBuf readBuf = (ByteBuf) msg;
-            log.info("response is:{} ",readBuf.toString(CharsetUtil.UTF_8));
+            String response = (String) msg;
+            log.info("response is:{} ",response);
             log.info("服务端响应次数:{}",++responseCount);
         }
 
