@@ -1,0 +1,9 @@
+syntax ="proto3";
+
+option java_package = "com.hcj.study.nettydemo.codec.protobuf";
+option java_outer_classname ="PayCallbackReqProtoBuf";
+
+message PayCallbackReq{
+  int64 goodId = 1;
+  int32 count = 2;
+}
