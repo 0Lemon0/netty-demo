@@ -44,9 +44,9 @@ public class NettyProtoBufServer {
                 .childHandler(new ChannelInitializer<SocketChannel>() {
                     @Override
                     protected void initChannel(SocketChannel socketChannel) {
-                        //ProtobufVarint32FrameDecoder解码器用于半包处理
+                        //ProtobufVarint32FrameDecoder解码器用于半包处理,若忽略半包消息的处理,程序无法正常工作
                         socketChannel.pipeline().addLast(new ProtobufVarint32FrameDecoder());
-                        //ProtobufDecoder解码器用于将数据解码成对应protobuf对象
+                        //ProtobufDecoder解码器用于将数据解码成对应protobuf对象,但不支持读半包
                         socketChannel.pipeline().addLast(new ProtobufDecoder(PayCallbackReqProtoBuf.PayCallbackReq.getDefaultInstance()));
                         //ProtobufVarint32LengthFieldPrepender编码器对protobuf协议的的消息头上加上一个长度为32的整形字段,用于标志这个消息的长度
                         socketChannel.pipeline().addLast(new ProtobufVarint32LengthFieldPrepender());
